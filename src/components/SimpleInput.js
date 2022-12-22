@@ -2,30 +2,19 @@ import { useEffect, useState } from "react";
 
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState("");
-  const [enteredNameIsValid, setEnteredNameIsValid] = useState(false);
   const [enteredNameTouchedValid, setEnteredNameTouchedValid] = useState(false);
-
-  useEffect(() => {
-    if (enteredNameIsValid) {
-      console.log("Name is not empty");
-    }
-  }, [enteredNameIsValid]);
+  
+  const enteredNameIsValid = enteredName !== '';
+  const nameInputNameInvalid = !enteredNameIsValid && enteredNameTouchedValid;
 
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
-    if (event.target.value.trim() === "") {
-      setEnteredNameIsValid(true);
-      return;
-    }
+    
   };
 
   const nameInputBlurHandler = (event) => {
     setEnteredNameTouchedValid(true);
 
-    if (enteredName.trim() === "") {
-      setEnteredNameIsValid(false);
-      return;
-    }
   };
 
   const formChangeHandler = (event) => {
@@ -33,18 +22,15 @@ const SimpleInput = (props) => {
 
     setEnteredNameTouchedValid(true);
 
-    if (enteredName.trim() === "") {
-      setEnteredNameIsValid(false);
+    if (!enteredNameIsValid) {
       return;
     }
 
-    setEnteredNameIsValid(true);
-
     console.log(enteredName);
     setEnteredName("");
+    setEnteredNameTouchedValid(false);
   };
 
-  const nameInputNameInvalid = !enteredNameIsValid && enteredNameTouchedValid;
 
   const nameInputClassName = nameInputNameInvalid
     ? "form-control invalid"
